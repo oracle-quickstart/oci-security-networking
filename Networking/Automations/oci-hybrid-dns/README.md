@@ -44,14 +44,14 @@ Please follow these instructions to complete the deployment:
 2.	Change the variables like VCN and subnet CIDR blocks as per the requirement in **_vars.tf_** file.
 3.	Login to the OCI console and navigate to Developer Services -> Resource Manager -> Stacks.
 4.	Create stack by uploading the downloaded and modified terraform folder.
-  a. Choose the appropriate compartment.
-  b. Enter ‘local_region’ and ‘remote_region’. For example, us-ashburn-1 and us-phoenix-1.
-6.	After creating the stack, click on the stack and click on ‘Plan’ to perform Terraform Plan on the script. This will ensure that you see any errors before applying. You should see a total of 24 resources to add.
-7.	Click on ‘Apply’. This step will deploy all the core networking resources including VCNs, subnets, security rules etc..
-8.	After the core networking is completed, we will deploy DNS components. In the terraform configuration on your local machine, uncomment the DNS configuration code in **_dnsLocal.tf and dnsRemote.tf_** and save the configuration.
-9.	Now, go to the existing stack and click on ‘Edit’ -> Edit Stack.
-10.	Upload the modified terraform folder and follow the instruction prompts. Region’s information provided earlier remains the same.
-11.	After modifying the stack, perform ‘Plan’ and ‘Apply’ as previous. This should deploy 10 DNS resources to the existing deployment.
+5.	Choose the appropriate compartment.
+6.	Enter ‘local_region’ and ‘remote_region’. For example, us-ashburn-1 and us-phoenix-1.
+7.	After creating the stack, click on the stack and click on ‘Plan’ to perform Terraform Plan on the script. This will ensure that you see any errors before applying. You should see a total of 24 resources to add.
+8.	Click on ‘Apply’. This step will deploy all the core networking resources including VCNs, subnets, security rules etc..
+9.	After the core networking is completed, we will deploy DNS components. In the terraform configuration on your local machine, uncomment the DNS configuration code in **_dnsLocal.tf and dnsRemote.tf_** and save the configuration.
+10.	Now, go to the existing stack and click on ‘Edit’ -> Edit Stack.
+11.	Upload the modified terraform folder and follow the instruction prompts. Region’s information provided earlier remains the same.
+12.	After modifying the stack, perform ‘Plan’ and ‘Apply’ as previous. This should deploy 10 DNS resources to the existing deployment.
 
 For verification or testing, you can create 2 compute VMs in each of the VCNs and test the name resolution using ‘nslookup’.
 Site-to-Site VPN can be added to test hybrid DNS scenario. Replace the '1.1.1.1' IP address and on premises FQDN in the Hub VCN forwarding rule to the appropriate values.
