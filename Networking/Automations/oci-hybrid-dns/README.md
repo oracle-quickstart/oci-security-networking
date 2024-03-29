@@ -6,7 +6,7 @@ This stack is designed to deploy a hybrid DNS solution using OCI's private DNS f
 
 ## Network Diagram
 
-This code will deploy "Scenario 3" from the blog: https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios
+This code will deploy "Scenario 4" from the blog: https://www.ateam-oracle.com/post/oci-private-dns---common-scenarios
 ![image](https://github.com/oracle-quickstart/oci-security-networking/assets/42783062/d42845e6-041c-4f82-a8c3-546c3282d08b)
 
 ## Prerequisites
