@@ -1,0 +1,102 @@
+# Copyright (c) 2022 Oracle and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+title: "Secure Fusion Printing from OCI"
+stackDescription: "This stack deploys the OCI resources required to print securely from Fusion using OCI.  For details, please see https://www.ateam-oracle.com/post/using-oci-for-secure-on-prem-printing-from-oracle-fusion-bi-publisher"
+description: "This stack deploys the OCI resources required to print securely from Fusion using OCI.  For details, please see https://www.ateam-oracle.com/post/using-oci-for-secure-on-prem-printing-from-oracle-fusion-bi-publisher"
+schemaVersion: 1.1.0
+version: "2.7.0"
+locale: "en"
+
+# URL of CIS Landing Zone logo icon used on Application Information tab.
+logoUrl: "https://www.ateam-oracle.com/content/published/api/v1.1/assets/CONT25C171719C4B46439533E51855363497/Medium?cb=_cache_0ede&format=jpg&channelToken=12f676b76bf44b4e9b22e6b36ebfe358"
+
+variableGroups:
+  - title: "Environment"
+    variables:
+      - ${region}
+      - ${compartment_ocid}
+      - ${label_prefix}
+ 
+  - title: "Generic Networking"
+    variables:
+      - ${vcn_name}
+      - ${vcn_cidrs}
+      - ${vcn_dns_label}
+      - ${subnet_name}
+      - ${subnet_cidr_block}
+      - ${subnet_dns_label}
+      - ${route_table_display_name}
+      - ${internet_gateway_display_name}
+      - ${fusion_source_cidr}
+      - ${drg_display_name}
+      - ${drg_attachment_display_name}
+    
+  - title: "Load Balancer"
+    variables:
+      - ${load_balancer_display_name}
+      - ${load_balancer_shape_details_maximum_bandwidth_in_mbps}
+      - ${load_balancer_shape_details_minimum_bandwidth_in_mbps}
+      - ${on_prem_printer_network}
+      - ${on_prem_printer_ip}
+
+variables:
+  region:
+    required: true
+  
+  compartment_ocid:
+    required: true
+
+  label_prefix:
+    required: true
+
+  vcn_name:
+    required: true
+
+  vcn_cidrs:
+    required: true
+
+  vcn_dns_label:
+    required: true
+
+  subnet_name:
+    required: true
+
+  subnet_cidr_block:
+    required: true  
+
+  subnet_dns_label:
+    required: true
+
+  route_table_display_name:
+    required: true
+
+  internet_gateway_display_name:
+    required: true
+
+  fusion_source_cidr:
+    required: true
+
+  drg_display_name:
+    required: true
+
+  drg_attachment_display_name:
+    required: true
+
+  load_balancer_display_name:
+    required: true
+
+  load_balancer_shape_details_maximum_bandwidth_in_mbps:
+    required: true
+  
+  load_balancer_shape_details_minimum_bandwidth_in_mbps:
+    required: true
+
+  on_prem_printer_network:
+    required: true
+
+  on_prem_printer_ip:
+    required: true
+
+    
+  
