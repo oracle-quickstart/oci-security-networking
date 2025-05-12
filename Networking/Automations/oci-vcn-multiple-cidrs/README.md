@@ -36,11 +36,11 @@ The code contains following configuration:
 
 Please follow these instructions to complete the deployment:
 
-1.	Download the configuration.
+1.	Download the configuration of the 3 Terraform files (main.tf, variables.tf, & terraform.tfvars). Add these files into a single ZIP file.
 3.	Login to the OCI console and navigate to Developer Services -> Resource Manager -> Stacks.
-4.	Create stack by uploading the downloaded terraform folder.
-5.	Choose the appropriate compartment.
-6.	Enter ‘region’. For example, us-ashburn-1.
+4.	Create stack by uploading the Terraform ZIP file.
+5.	Choose the appropriate compartment. Select Next.
+6.	Optionally you pick the specific AD, Compartment, or Tenancy. Along with any additional ipv4 CIDR blocks you would like to add (max of 5 CIDRs). Enter ‘region’ to deploy VCN, for example, us-ashburn-1.
 7.	After creating the stack, click on the stack and click on ‘Plan’ to perform Terraform Plan on the script. This will ensure that you see any errors before applying. You should see a total of 24 resources to add.
 8.	Click on ‘Apply’. This step will deploy all the core networking resources including VCNs, subnets, security rules etc..
 
