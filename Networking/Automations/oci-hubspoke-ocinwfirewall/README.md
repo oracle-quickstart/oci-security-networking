@@ -1,50 +1,41 @@
-**OCI Hub and Spoke Network Firewall Architecture**
+# 🚀🚀 OCI Hub-and-Spoke Network Firewall Architecture 🚀🚀
 
-This Terraform configuration deploys a Hub-and-Spoke architecture in
-Oracle Cloud Infrastructure (OCI) with a network firewall for traffic
-inspection between the hubs and spokes.
+This Terraform configuration deploys a **scalable, modular Hub-and-Spoke network architecture** in Oracle Cloud Infrastructure (OCI) with **centralized traffic inspection** using the **OCI Network Firewall**.
 
-**Summary**
+---
 
-This Terraform code automates the deployment of the following resources
-in OCI:
+## 🔍 Summary
 
-- **VCN (Virtual Cloud Network)** with both public and private subnets.
+This code automates the provisioning of:
 
-- **Security Lists** for controlling traffic between spokes.
+- ✅ **Hub VCN** with centralized firewall and routing
+- ✅ **Spoke VCNs** with **public and private subnets**
+- ✅ **Compute Instances** in public/private spoke subnets
+- ✅ **Security Lists** to manage traffic within/between VCNs
+- ✅ **DRG and DRG Attachments** for full mesh VCN connectivity
+- ✅ **Route Tables** to steer traffic through the firewall
+- ✅ **OCI Network Firewall** in the hub vcn to inspect traffic between the spokes
+- ✅ **OCI Network Firewall Policy** The default policy, Allows all traffic between hub and spoke VCNs
 
-- **Route Tables** to direct traffic appropriately within the VCNs.
+> 🛡️ You can modify firewall rules in firewall.tf, Refer to below link for configuring Firewall Policies
+> https://docs.oracle.com/en-us/iaas/Content/Resources/Assets/whitepapers/learn-oci-network-firewall-with-examples.pdf
 
-- **Compute Instances (VMs)** in the spoke VCNs, in selected **public** or **private** subnet
+> 🧱 **Fully scalable** — just update the `spoke_vcn` and `spoke_instances` maps to add/remove spokes and compute instances.
 
-- **Dynamic Routing Gateway (DRG)** and **attachments** for connecting the
-  hub VCN with the spoke VCNs.
+---
 
-- **OCI Network Firewall** for traffic inspection
+## 🧰 Prerequisites
 
-- **Firewall Policies** a sample firewall policy to allow  all traffic between networks.
+Make sure you have the following:
 
-The architecture is designed for secure, scalable communication between
-different OCI VCNs, and it can be easily extended to more spoke networks
-by modifying the variables.
+- 🟢 OCI account with required permissions for networking and compute
+- 🟢 Terraform CLI ≥ 1.3.0 installed
+- 🟢 OCI API key configured for CLI or Terraform provider
+- 🟢 OCIDs for tenancy, compartment, and desired region
 
-**Steps to Use the Code**
+---
 
-**1. Prerequisites**
-
-Ensure you have the following in place:
-
-- An Oracle Cloud account with the necessary privileges to create
-  network and compute resources.
-
-- **Terraform** installed on your local machine (version \>= 1.3.0).
-
-- Access to an **OCI API key** for Terraform authentication.
-
-- An **OCI Compartment ID** and other required values (OCIDs, VCN CIDR
-  blocks, etc.).
-
-**2. Configure Terraform Variables**
+## 🔧 Configure Terraform Variables
 
 In the terraform.tfvars file, you need to define values for the
 following variables:
@@ -101,14 +92,15 @@ spoke_vcn = {
 Adjust the above configuration according to your network architecture
 needs.
 
-**3. Initialize Terraform**
+## ⚙️ How to Use
+**1️⃣ Initialize Terraform**
 
 Once the variables are configured, initialize Terraform to download the
 necessary providers:
 ```
 terraform init
 ```
-**4. Review the Plan**
+**2️⃣ Review the Plan**
 
 Run the following command to see the execution plan and verify that the
 resources will be created as expected:
@@ -116,7 +108,7 @@ resources will be created as expected:
 ```
 terraform plan
 ```
-**5. Apply the Configuration**
+**3️⃣ Apply the Configuration**
 
 If everything looks good, apply the configuration to create the
 resources in OCI:
@@ -125,17 +117,18 @@ terraform apply
 ```
 Confirm the action by typing yes when prompted.
 
-**6. Verify the Deployment**
+**✅ Verify Deployment**
 
 Once the apply is complete, verify that the resources have been created
 correctly in OCI:
 
-- Check the **VCNs**, **subnets**, and **compute instances** in the OCI
-  Console.
+- Check VCNs, subnets, and compute instances in the OCI Console
 
-- Verify that the **Network Firewall** is deployed and active.
+- Ensure the OCI Network Firewall is active and inspecting traffic
 
-**7. Using OCI Resource Manager (Optional)**
+- Confirm DRG connectivity between hub and spokes
+
+**☁️ (Optional) OCI Resource Manager**
 
 You can use **OCI Resource Manager** to manage your infrastructure as
 code. To do this:
@@ -150,7 +143,7 @@ code. To do this:
 This allows you to manage and maintain the infrastructure from the OCI
 Console instead of running Terraform locally.
 
-**File Overview**
+**📁 File Overview**
 
 - **main.tf**: Contains resources for DRG (Dynamic Routing Gateway),
   route tables, DRG attachments, and VCNs for the hub and spoke
@@ -186,9 +179,10 @@ Console instead of running Terraform locally.
 - The infrastructure created can be scaled by adding more entries to the
   spoke_vcn map and adjusting the spoke_instances map accordingly.
 
-**Conclusion**
+**🧼 Cleanup**
 
-This Terraform code provides a scalable and secure hub-and-spoke network
-architecture in OCI, complete with network traffic inspection via OCI\'s
-Network Firewall. By following these steps and customizing the
-variables, you can deploy a secure and fully operational network in OCI.
+To destroy all deployed resources:
+
+```
+terraform destroy
+```
