@@ -8,7 +8,7 @@ This stack is designed to deploy a Virtual Cloud Network (VCN) with OCI Zero Tru
 
 This code will deploy the scenario from the How to Build a ZPR Policy [video].
 
-ZPR Diagram
+.
 ![ZPR_Design](images/design.png)
 
 ## Prerequisites
