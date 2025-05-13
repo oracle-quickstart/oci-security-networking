@@ -1,13 +1,13 @@
-region           = "ap-singapore-1"
-tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaaa3qmjxr43tjexx75r6gwk6vjw22ermohbw2vbxyhczksgjir7xdq"
-user_ocid        = "ocid1.user.oc1..aaaaaaaat42ko7hdurycoonyqvgliyat743lyv6yapswqb5uc3tmumilvrvq"
-fingerprint      = "0b:16:e2:5b:49:ed:56:e2:91:ed:2b:a9:83:ee:e7:a1"
-private_key_path = "/Users/sujitn/Downloads/sujit.s.nair@oracle.com_2024-12-02T14_17_26.015Z.pem"
-compartment_id = "ocid1.compartment.oc1..aaaaaaaavxmj7h6kwjg2rxmpnn6b677jsljm2fwfhbjqgyk5igkx4o6rdiba"
-ssh_public_key_path = "/Users/sujitn/Documents/Projects/TF Workshops/HUB-n-spoke-OCIFW/vmssh.pub"
-my_public_ip = "122.172.82.56"
-hub_vcn_cidr = "10.1.0.0/16"
-hub_vcn_pub_subnet = "10.1.1.0/24"
+region                  = "us-phoenix-1"    # Your OCI region
+compartment_id          = "ocid1.compartment.oc1..xxxxxx"    # Your OCI compartment OCID
+tenancy_ocid            = "ocid1.tenancy.oc1..xxxxxx"        # Your OCI tenancy OCID
+user_ocid               = "ocid1.user.oc1..xxxxxx"            # Your OCI user OCID
+fingerprint             = "your-api-key-fingerprint"          # Your OCI API key fingerprint
+private_key_path        = "/path/to/your/private_key.pem"    # Path to your private key
+ssh_public_key_path     = "/path/to/your/ssh_public_key.pub" # Path to your SSH public key
+my_public_ip            = "your-public-ip"                    # Your public IP (for SSH access)
+hub_vcn_cidr            = "10.0.0.0/16"                       # CIDR for the Hub VCN
+hub_vcn_pub_subnet      = "10.0.1.0/24"                       # CIDR for the Hub public subnet
 
 spoke_instances = {
   spoke01 = {
@@ -21,16 +21,16 @@ spoke_instances = {
 }
 
 spoke_vcn = {
-  spoke01 = {
-    cidr_block          = "10.10.0.0/23"
-    public_subnet_cidr  = "10.10.0.0/24"
-    private_subnet_cidr = "10.10.1.0/24"
-    dns_label           = "spoke01"
-  },
-  spoke02 = {
-    cidr_block          = "10.20.0.0/23"
-    public_subnet_cidr  = "10.20.0.0/24"
-    private_subnet_cidr = "10.20.1.0/24"
-    dns_label           = "spoke02"
+  spoke1 = {
+    cidr_block           = "192.168.1.0/24"
+    public_subnet_cidr   = "192.168.1.0/26"
+    private_subnet_cidr  = "192.168.1.64/26"
+    dns_label            = "spoke1"
+  }
+  spoke2 = {
+    cidr_block           = "192.168.2.0/24"
+    public_subnet_cidr   = "192.168.2.0/26"
+    private_subnet_cidr  = "192.168.2.64/26"
+    dns_label            = "spoke2"
   }
 }
