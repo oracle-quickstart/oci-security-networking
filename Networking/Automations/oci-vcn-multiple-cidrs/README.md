@@ -6,11 +6,11 @@ This stack is designed to deploy a Virtual Cloud Network (VCN) with multiple IPv
 
 ## Network Diagram
 
-This code will deploy the scenario from the video: https://youtu.be/HV90CTuMXAM and related blog: https://www.ateam-oracle.com/post/vcn-with-multiple-cidr-ranges
+This code will deploy the scenario from the video: [video] and related [blog].
 
 ## Prerequisites
 
-Following prerequisites are required before deploying this code:
+The following [prerequisites] are required before deploying this code:
 1.	OCI Account.
 2.	Target compartment where stack needs to be created and resources need to be deployed.
 3.	IAM policies required to provision the resources.
@@ -50,3 +50,24 @@ For verification or testing, you can create 2 compute VMs in each of the VCN sub
 
 If you want to delete all the resources, you can perform ‘Destroy’ on the stack. This is a one-step operation.
 
+
+<!-- Links reference section -->
+[changelog]: https://github.com/oracle-terraform-modules/terraform-oci-vcn/blob/main/CHANGELOG.adoc
+[contributing]: https://github.com/oracle-terraform-modules/terraform-oci-vcn/blob/main/CONTRIBUTING.adoc
+[contributors]: https://github.com/oracle-terraform-modules/terraform-oci-vcn/blob/main/CONTRIBUTORS.adoc
+[docs]: https://github.com/oracle-terraform-modules/terraform-oci-vcn/tree/main/docs
+
+[blog]: https://www.ateam-oracle.com/post/vcn-with-multiple-cidr-ranges
+[video]: https://youtu.be/HV90CTuMXAM
+
+[oci]: https://cloud.oracle.com/cloud-infrastructure
+[oci_documentation]: https://docs.cloud.oracle.com/iaas/Content/home.htm
+
+[oracle]: https://www.oracle.com
+[prerequisites]: https://github.com/oracle-terraform-modules/terraform-oci-vcn/blob/main/docs/prerequisites.adoc
+
+[quickstart]: https://github.com/oracle-terraform-modules/terraform-oci-vcn/blob/main/docs/quickstart.adoc
+[repo]: https://github.com/oracle-quickstart/oci-fusion-print
+[terraform]: https://www.terraform.io
+[terraform_oci]: https://www.terraform.io/docs/providers/oci/index.html
+<!-- Links reference section -->
