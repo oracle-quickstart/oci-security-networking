@@ -7,8 +7,9 @@ This stack is designed to deploy a Virtual Cloud Network (VCN) with OCI Zero Tru
 ## Network Diagram
 
 This code will deploy the scenario from the How to Build a ZPR Policy [video].
-![ZPR_Design](images/design.png).
 
+ZPR Diagram
+![ZPR_Design](images/design.png)
 
 ## Prerequisites
 
@@ -54,7 +55,7 @@ Alternatively please follow these instructions to complete the deployment:
 3.	Login to the OCI console and navigate to Developer Services -> Resource Manager -> Stacks.
 4.	Create stack by uploading the Terraform ZIP file.
 5.	Choose the appropriate compartment. Select Next.
-6.  Enter the correct Home Region for your tenancy. This is required for ZPR polices to be applied correctly. You can find your Home Region by selecting the Region drop down in the upper right Region drop-down menu.
+6.  Enter a dns name for your VCN and the correct Home Region for your tenancy. This is required for ZPR polices to be applied correctly. You can find your Home Region by selecting the Region drop down in the upper right Region drop-down menu.
 7.	Optionally you can also specificy the following:
     **_a._** Availability Domain
     **_b._** Compartment (OCID)
@@ -71,7 +72,7 @@ For verification or testing, you can log into each instance deployed in each of 
 
 ## Termination
 
-If you want to delete all the resources, you must FIRST retire the ZPR Security Attribute Namespace "src-to-dst". Once completed, you can perform ‘Destroy’ on the stack. 'Destroy' is a one-step operation.
+If you want to delete all the resources, you must **_FIRST_** retire the ZPR Security Attribute Namespace "src-to-dst". Once completed, you can perform ‘Destroy’ on the stack. 'Destroy' is a one-step operation.
 
 
 <!-- Links reference section -->
