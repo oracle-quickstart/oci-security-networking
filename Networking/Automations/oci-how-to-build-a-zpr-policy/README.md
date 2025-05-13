@@ -48,5 +48,4 @@ For verification or testing, you can create 2 compute VMs in each of the VCN sub
 
 ## Termination
 
-If you want to delete all the resources, you can perform ‘Destroy’ on the stack. This is a one-step operation.
-
+If you want to delete all the resources, you must FIRST retire the ZPR Security Attribute Namespace "src-to-dst". Once completed, you can perform ‘Destroy’ on the stack. 'Destroy' is a one-step operation.
