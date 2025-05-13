@@ -40,20 +40,17 @@ The code contains following configuration:
 
 After logging into the console you'll be taken through the same steps described below:
 
-Step 1 - Check the "I have reviewed and accept the Oracle Terms of Use" checkbox and optionally provide a name for this stack. 
+Step 1 - Check the "I have reviewed and accept the Oracle Terms of Use" checkbox and optionally provide a name for this stack. Select the compartment and Terraform version and click "Next"
 ![Stack Step 1](images/Stack%201.png)
 
-Step 2 - Select the compartment and Terraform version and click "Next"
-![Stack Step 2](images/Stack%202.png)
+Step 2 - Fill out all variables listed (All are required but some have default values provided) and click "Next"
+![Stacke Step 2](images/Stack%202.png)
 
-Step 3 - Fill out all variables listed (All are required but some have default values provided) and click "Next"
-![Stacke Step 3](images/Stack%203.png)
-
-Step 4 - Review the information and click "Create"
+Step 3 - Review the information and click "Create"
 
 Alternatively Please follow these instructions to complete the deployment:
 
-1. Download the configuration of the 3 Terraform files (main.tf, variables.tf, & terraform.tfvars). Add these files into a single ZIP file. Alternatively, download the existing ZIP file located [here]
+1. Download the existing ZIP file located [here] or download the configuration of the 3 Terraform files (main.tf, variables.tf, & terraform.tfvars). Add these files into a single ZIP file. 
 3.	Login to the OCI console and navigate to Developer Services -> Resource Manager -> Stacks.
 4.	Create stack by uploading the Terraform ZIP file.
 5.	Choose the appropriate compartment. Select Next.
