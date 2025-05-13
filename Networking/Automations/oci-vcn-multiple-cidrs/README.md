@@ -6,7 +6,7 @@ This stack is designed to deploy a Virtual Cloud Network (VCN) with multiple IPv
 
 ## Network Scenario
 
-This code will deploy the scenario from the [video] and related [blog]. (images/VCN_CIDR_Blocks.png)
+This code will deploy the scenario from the [video] and related [blog](images/VCN_CIDR_Blocks.png).
 
 ## Prerequisites
 
