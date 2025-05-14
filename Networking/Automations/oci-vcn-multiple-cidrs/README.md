@@ -31,7 +31,6 @@ We will use **Resource Manager** on the OCI console to deploy the stack.
 This stack uses [OCI Resource Manager](https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm) to make deployment easy, sign up for an [OCI account](https://cloud.oracle.com/en_US/tryit) if you don't have one, and just click the button below:
 
 [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-quickstart/oci-security-networking/raw/refs/heads/main/Networking/Automations/oci-vcn-multiple-cidrs/Resource-Manager/oci-vcn-multiple-cidr.zip)
-
 The code contains following configuration:
 
 1. **_main.tf_**: To provision the core resources required: VCN, subnets, route tables, security lists, and gateways respectively.
