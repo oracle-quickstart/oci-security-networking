@@ -1,0 +1,400 @@
+# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+title: "OCI Function Stack"
+stackDescription: "This stack deploys an OCI function application and function along with the IAM requirements, including a compartment, dynamic group and policy. It can also deploy a new VCN and subnet, a log group and log, and invoke the function after deployment for testing purposes."
+description: "This stack deploys an OCI function application and function along with the IAM requirements, including a compartment, dynamic group and policy. It can also deploy a new VCN and subnet, a log group and log, and invoke the function after deployment for testing purposes."
+schemaVersion: 1.1.0
+version: "0.0.1"
+locale: "en"
+
+variableGroups:
+  - title: "General"
+    variables:
+      - "region"
+
+  - title: "IAM Setup - Compartment"
+    variables:
+      - "deploy_compartment"
+      - "existing_compartment_ocid"
+      - "new_compartment_parent_ocid"
+      - "new_compartment_name" 
+
+  - title: "IAM Setup - Dynamic Group and Policy"
+    variables:
+      - "deploy_dyn_group_and_policy"
+      - "dynamic_group_name"
+      - "policy_name"
+      - "provide_short_policy_statements"
+      - "policy_statements_short"
+      - "policy_statements_full"    
+      - "policy_compartment_ocid"
+    
+  - title: "Networking"
+    variables:
+      - "deploy_infra_for_subnet"
+      - "existing_vcn_compartment_ocid"
+      - "existing_vcn_ocid"
+      - "existing_subnet_ocid"
+      - "new_vcn_compartment_ocid"
+      - "new_vcn_name"
+      - "new_vcn_cidr"
+      - "new_subnet_name"
+      - "new_subnet_cidr"  
+
+  - title: "Function Configuration"
+    variables:
+      - "ocir_username"
+      - "ocir_password"
+      - "repository_name"
+      - "function_working_dir"
+      - "enable_function_logging"  
+
+  - title: "Function Runtime"
+    variables:
+      - "function_parameters_map" 
+      - "invoke_function" 
+
+  - title: "Hidden Variables"
+    visible: false
+    variables:
+      - "tenancy_ocid"  
+      - "user_ocid"
+      - "fingerprint"
+      - "private_key_path"
+      - "private_key_password"     
+
+variables:
+  region:
+    type: oci:identity:region:name
+    title: "Region for Function Deployment"
+    description: "Select the region for function deployment."
+    required: true
+
+  deploy_compartment:
+    type: boolean
+    title: "Deploy compartment for function?"
+    description: "Uncheck to use an existing compartment for function deployment."
+    required: true
+  
+  existing_compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Existing Compartment for Function"
+    description: "Select the existing compartment where the function is deployed."
+    required: true
+    visible: 
+      eq:
+        - ${deploy_compartment}
+        - false
+
+  new_compartment_parent_ocid:
+    type: oci:identity:compartment:id
+    title: "Parent Compartment for New Compartment"
+    description: "Select the parent compartment for the new compartment. This is only required if you are creating a new compartment."
+    required: true
+    visible: deploy_compartment
+
+  new_compartment_name:
+    type: string
+    title: "New Compartment Name"
+    description: "Enter the name for the new compartment. This is only required if you are creating a new compartment."
+    required: true
+    visible: deploy_compartment      
+
+  deploy_dyn_group_and_policy:
+    type: boolean
+    title: "Deploy dynamic group and policy for function?"
+    description: "Uncheck if you already have a dynamic group and policy to run the function."
+    required: true
+
+  dynamic_group_name:
+    type: string
+    title: "Dynamic Group Name"
+    description: "Enter the dynamic group name for the function. The function executes with the permissions assigned to this dynamic group."
+    required: false 
+    visible: deploy_dyn_group_and_policy
+
+  policy_name:
+    type: string
+    title: "Policy Name"
+    description: "Enter a policy name for the function. This policy grants the permissions required by the function to execute properly."
+    required: false
+    visible: deploy_dyn_group_and_policy
+
+  provide_short_policy_statements:
+    type: boolean
+    title: "Provide policy statements in short format?"
+    description: "Uncheck to provide policy statements in full, where you can create complex policies and attach them anywhere in the compartment hierarchy. Check to provide policy statements in short format."
+    required: true
+    visible: deploy_dyn_group_and_policy
+
+  policy_statements_short:
+    type: text
+    multiline: true
+    title: "Policy Statements (Short)"
+    description: "Enter the policy statements required by the function in short format (as a comma-separated list). The format must follow the pattern: \"<verb> <resource>\". Use this field for creating basic statements (allow dynamic-group <dyn-group-name> to <verb> <resource> in compartment <function-compartment>). The module expands the short statements into full policy statements per the following rules: 1. the grantee is always the dynamic group name provided in the 'Dynamic Group Name' field; 2. the compartment name is the one referred by 'Existing Compartment for Function' or given by 'New Compartment Name' fields."
+    required: false
+    visible:
+      and:
+        - eq:
+          - ${deploy_dyn_group_and_policy}
+          - true 
+        - eq:
+          - ${provide_short_policy_statements}
+          - true      
+
+  policy_statements_full:
+    type: text
+    multiline: true
+    title: "Policy Statements (Free Text)"
+    description: "Enter the policy statements for the function in free text format per OCI policy requirements (one statement per line). Use this field for providing complex statements when required by the function. When using this field, you must provide the statements in full, as the module will not make any expansions."
+    required: false
+    visible:
+      and:
+        - eq:
+          - ${deploy_dyn_group_and_policy}
+          - true 
+        - eq:
+          - ${provide_short_policy_statements}
+          - false
+
+  policy_compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Policy Compartment"
+    description: "Select the existing compartment where the policy for the function is deployed. By default, the policy is created in the compartment where the function is deployed. Keep in mind the policy compartment cannot be at a lower level than any compartment mentioned in the policy statements."
+    required: false
+    visible:
+      and:
+        - eq:
+          - ${deploy_dyn_group_and_policy}
+          - true 
+        - eq:
+          - ${provide_short_policy_statements}
+          - false
+
+  deploy_infra_for_subnet:
+    type: boolean
+    title: "Deploy network infrastructure?"
+    description: "Uncheck to deploy the function in an existing subnet. In such case, you must make sure the subnet satisfies the requirements for running your function. When checked, this stack manages the required subnet infrastructure to run the Function, including a VCN, the Subnet itself (private), a Security List, a Route Table, and a Service Gateway."
+    required: true  
+
+  existing_vcn_compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Existing VCN Compartment"
+    description: "Select the compartment for the existing subnet's VCN."
+    visible: 
+      eq: 
+        - ${deploy_infra_for_subnet}
+        - false
+
+  existing_vcn_ocid:
+    type: oci:core:vcn:id
+    dependsOn: 
+      compartmentId: ${existing_vcn_compartment_ocid}
+    title: "Existing VCN"
+    description: "Select the existing subnet's VCN."
+    required: false  
+    visible: 
+      eq: 
+        - ${deploy_infra_for_subnet}
+        - false
+
+  existing_subnet_ocid:
+    type: oci:core:subnet:id
+    dependsOn: 
+      compartmentId: ${existing_vcn_compartment_ocid}
+      vcnId: ${existing_vcn_ocid}
+    title: "Existing Subnet"
+    description: "Select the existing subnet where the function will be deployed."
+    required: false  
+    visible: 
+      eq: 
+        - ${deploy_infra_for_subnet}
+        - false
+
+  new_vcn_compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Compartment for the new VCN"
+    description: "Select the compartment for the new VCN."
+    required: false
+    visible: deploy_infra_for_subnet
+        
+  new_vcn_name:
+    type: string
+    title: "VCN Name"
+    description: "Enter the name for the new VCN."
+    required: false  
+    visible: deploy_infra_for_subnet
+
+  new_vcn_cidr:
+    type: string
+    title: "VCN CIDR"
+    description: "Enter the CIDR for the new VCN."
+    required: false
+    visible: deploy_infra_for_subnet  
+
+  new_subnet_name:
+    type: string
+    title: "Subnet Name"
+    description: "Enter the name for the new private subnet."
+    required: false
+    visible: deploy_infra_for_subnet
+
+  new_subnet_cidr:
+    type: string
+    title: "Subnet CIDR"
+    description: "Enter the CIDR for the new subnet."
+    required: false
+    visible: deploy_infra_for_subnet  
+
+  ocir_username:
+    type: string
+    title: "OCI Registry Username"
+    description: "Enter the username that pushes function images into OCI registry."
+    required: true   
+
+  ocir_password:
+    type: password
+    title: "OCI Registry User Password"
+    description: "Enter the password for OCI Registry user."
+    required: true
+  
+  repository_name:
+    type: string
+    title: "OCI Registry Repository Name"
+    description: "Enter the repository name to store function images in OCI Registry. The repository is provisioned on the fly."
+    required: true
+
+  function_working_dir:
+    type: string
+    title: "Function Source Code Directory Path"
+    description: "Enter the path for the directory containing the function source code to deploy."
+    required: true
+
+  function_parameters_map:
+    type: string
+    title: "Function Parameters (function specific)"
+    description: "Enter the parameters (if any) for the function in 'Function Source Code Directory Path' in a JSON string format, as {\"PARAM_1_NAME\" : \"PARAM_1_VALUE\", \"PARAM_2_NAME\" : \"PARAM_2_VALUE\", ...}."
+    required: false 
+
+  invoke_function:
+    type: boolean
+    title: "Test Function Invocation?"
+    description: "Uncheck to not invoke the function on every apply. Use this for testing the function. When checked, the function is invoked on every apply. The function invocation output is displayed in the 'Application Information' tab."
+    required: false   
+
+  enable_function_logging:
+    type: boolean
+    title: "Enable Function Logging?"
+    description: "Uncheck to disable logging for the function. When checked, a log group and a log are created in the compartment chosen above for the function."
+    required: false  
+
+outputs:
+  functions_compartment_name:
+    type: string
+    title: Function Compartment Name
+
+  functions_compartment_id:
+    type: string
+    title: Function Compartment OCID
+
+  functions_dyn_group_name:
+    type: string
+    title: Function Dynamic Group Name
+
+  functions_dyn_group_id:
+    type: string
+    title: Function Dynamic Group OCID
+
+  functions_policy_name:
+    type: string
+    title: Function Policy Name
+
+  functions_policy_id:
+    type: string
+    title: Function Policy OCID
+
+  function_application_name:
+    type: string
+    title: Function Application Name
+
+  function_application_id:
+    type: string
+    title: Function Application OCID
+
+  function_name:
+    type: string
+    title: Function Name
+
+  function_id:
+    type: string
+    title: Function OCID
+
+  vcn_name:
+    type: string
+    title: Function VCN Name
+
+  vcn_id:
+    type: string
+    title: Function VCN OCID
+
+  private_subnet_name:
+    type: string
+    title: Function Subnet Name
+
+  private_subnet_id:
+    type: string
+    title: Function Subnet OCID
+
+  function_invocation_output:
+    type: string
+    title: Function Invocation Test
+
+  function_log_group_name:
+    type: string
+    title: Function Log Group Name 
+
+  function_log_group_id:
+    type: string
+    title: Function Log Group OCID
+
+  function_log_name:
+    type: string
+    title: Function Log Name 
+
+  function_log_id:
+    type: string
+    title: Function Log OCID  
+ 
+outputGroups:
+  - title: IAM
+    outputs:
+      - ${functions_compartment_name}
+      - ${functions_compartment_id} 
+      - ${functions_dyn_group_name}
+      - ${functions_dyn_group_id}
+      - ${functions_policy_name}
+      - ${functions_policy_id}
+
+  - title: Networking
+    outputs:
+      - ${vcn_name}
+      - ${vcn_id}
+      - ${private_subnet_name}
+      - ${private_subnet_id}
+
+  - title: Function Configuration
+    outputs:
+      - ${function_application_name}
+      - ${function_application_id}
+      - ${function_name}
+      - ${function_id}
+      - ${function_log_group_name}
+      - ${function_log_group_id}
+      - ${function_log_name}
+      - ${function_log_id}
+
+  - title: Function Runtime
+    outputs:
+      - ${function_invocation_output}
+    
