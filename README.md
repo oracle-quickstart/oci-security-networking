@@ -9,3 +9,11 @@ This project welcomes contributions from the community. Before submitting a pull
 ## Security
 
 Please consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process
+
+# License
+
+Copyright (c) 2025, Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
+
+See [LICENSE](./LICENSE.txt) for more details.

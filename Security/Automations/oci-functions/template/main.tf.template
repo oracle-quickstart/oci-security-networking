@@ -1,0 +1,124 @@
+# Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+module "fn_deploy" {
+    source = "../"
+    tenancy_ocid         = "<TENANCY-OCID>"
+    user_ocid            = "<USER-OCID>"                # Ignored in OCI Cloud Shell.
+    fingerprint          = "<USER-FINGERPRINT>"         # Ignored in OCI Cloud Shell.
+    private_key_path     = "<PATH-TO-PRIVATE-KEY-FILE>" # Ignored in OCI Cloud Shell.
+    private_key_password = ""                           # Ignored in OCI Cloud Shell.
+    region               = "<REGION-NAME>" # us-ashburn-1 
+
+    # Compartment
+    new_compartment_parent_ocid = "<FUNCTION-COMPARTMENT-PARENT-OCID>" # the compartment where the function compartment is created.
+    new_compartment_name = "my-function-cmp"
+
+    # Dynamic Group and Policy
+    dynamic_group_name = "my-function-dynamic-group"
+    policy_name = "my-function-name"
+
+    # Function 
+    ocir_username = "<OCI-REGISTRY-USER-NAME>"
+    ocir_password = "<OCI-REGISTRY-USER-TOKEN>" # make sure to have an authn token for the user.
+    function_working_dir = "../src/get-secret" # path to the working folder of your function.
+
+    # Networking
+    new_vcn_name = "my-function-vcn"
+    new_subnet_name = "my-function-subnet"
+}
+
+output "functions_compartment_id" {
+  description = "The OCID of the functions compartment"
+  value       = module.fn_deploy.functions_compartment_id
+}
+
+output "functions_compartment_name" {
+  description = "The name of the function compartment"
+  value       = module.fn_deploy.functions_compartment_name
+}
+
+output "functions_dyn_group_name" {
+  description = "The name of the dynamic group for functions"
+  value       = module.fn_deploy.functions_dyn_group_name
+}
+
+output "functions_dyn_group_id" {
+  description = "The OCID of the dynamic group for functions"
+  value       = module.fn_deploy.functions_dyn_group_id
+}
+
+output "functions_policy_name" {
+  description = "The name of the function policy"
+  value       = module.fn_deploy.functions_policy_name
+}
+
+output "functions_policy_id" {
+  description = "The OCID of the function policy"
+  value       = module.fn_deploy.functions_policy_id
+}
+
+output "vcn_id" {
+  description = "The VCN OCID"
+  value       = module.fn_deploy.vcn_id
+}
+
+output "vcn_name" {
+  description = "The VCN name"
+  value       = module.fn_deploy.vcn_name
+}
+
+output "private_subnet_id" {
+  description = "The private subnet OCID"
+  value       = module.fn_deploy.private_subnet_id
+}
+
+output "private_subnet_name" {
+  description = "The private subnet name"
+  value       = module.fn_deploy.private_subnet_name
+}
+
+output "function_application_id" {
+  description = "The OCID of the newly created Function application"
+  value       = module.fn_deploy.function_application_id
+}
+
+output "function_application_name" {
+  description = "The name of the newly created Function application"
+  value       = module.fn_deploy.function_application_name
+}
+
+output "function_id" {
+  description = "The OCID of the newly created Function"
+  value       = module.fn_deploy.function_id
+}
+
+output "function_name" {
+  description = "The name of the newly created Function"
+  value       = module.fn_deploy.function_name
+}
+
+output "function_invocation_output" {
+  description = "Value of the function invocation output"
+  value       = module.fn_deploy.function_invocation_output
+}
+
+output "function_log_group_id" {
+  description = "The OCID of the function log group"
+  value       = module.fn_deploy.function_log_group_id
+}
+
+output "function_log_group_name" {
+  description = "The name of the function log group"
+  value       = module.fn_deploy.function_log_group_name
+}
+
+output "function_log_id" {
+  description = "The OCID of the function log"
+  value       = module.fn_deploy.function_log_id
+}
+
+output "function_log_name" {
+  description = "The name of the function log"
+  value       = module.fn_deploy.function_log_name
+}
