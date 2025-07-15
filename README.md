@@ -10,7 +10,7 @@ This project welcomes contributions from the community. Before submitting a pull
 
 Please consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process
 
-# License
+## License
 
 Copyright (c) 2025, Oracle and/or its affiliates.
 

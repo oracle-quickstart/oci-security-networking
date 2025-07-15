@@ -140,3 +140,15 @@ Following sections describe the available variables in the configuration:
 ```
 exit status 1. Output: Error │ saving credentials: error storing credentials - err: exec: "docker-credential-osxkeychain": executable file not found in │ $PATH, out: 
 ```
+
+# About the Author
+
+[Andre Correa](https://github.com/andrecorreaneto) is an architect in North America Cloud Infrastructure team, focusing on overall cloud architecture, devops, security and networking. Some of his public recent work includes a collection of repositories containing Terraform modules that help customers align their OCI implementations with the CIS (Center for Internet Security) OCI Foundations Benchmark:
+- [OCI Core Landing Zone](https://github.com/oci-landing-zones/terraform-oci-core-landingzone/)
+- [OCI Landing Zone for Service Providers](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/tree/master/blueprints/multi-oe/saas/design)
+- [Identity & Access Management](https://github.com/oci-landing-zones/terraform-oci-modules-iam)
+- [Networking](https://github.com/oci-landing-zones/terraform-oci-modules-networking)
+- [Governance](https://github.com/oci-landing-zones/terraform-oci-modules-governance)
+- [Security](https://github.com/oci-landing-zones/terraform-oci-modules-security)
+- [Observability & Monitoring](https://github.com/oci-landing-zones/terraform-oci-modules-observability)
+- [Secure Workloads](https://github.com/oci-landing-zones/terraform-oci-modules-workloads)
