@@ -58,13 +58,31 @@ The machine where Terraform runs must have *fn* and *docker* (or any compatible 
 
 # Deployment
 
+## With OCI Resource Manager Service
+
 The button below takes you to OCI Resource Manager service, where you can provide values specific to your requirements and deploy the configuration.
 
-[![Deploy_To_OCI](../../../images/DeployToOCI.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-quickstart/terraform-oci-fn-deploy/archive/refs/heads/main.zip)
+[![Deploy_To_OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-quickstart/oci-security-networking/archive/refs/heads/main.zip)
+
+In the **Create stack/Stack information** page:
+
+1. Check the box "I have reviewed and accept the Oracle Terms of Use".
+2. Make sure to select **oci-security-networking-main/Security/Automations/oci-functions** option in **Working directory** field.
+3. Give the stack a name in **Name** field.
+4. Select a compartment where to save the stack in **Create in compartment** field.
+5. Click **Next** button at the bottom of the page.
+
+![OCI RMS Deployment](./images/createStack.png)
+
+Configure the variables per your requirements in the **Create stack/Configure variables** page. Refer to *Configuration Variables* section below for guidance.
+
+## With Terraform CLI
 
 For deploying with Terraform CLI, use the [provided template](./template/). Rename *main.tf.template* to *main.tf*, provide your input parameters in it and run *terraform plan/apply*. Make sure *fn* and *docker/podman* are available. As mentioned, you can use OCI Cloud Shell to deploy. 
 
 **Note:** Cloud Shell terminal runs terraform as the Console connected user. Therefore, input variables *user_ocid*, *fingerprint*, *private_key_path* and *private_key_password* are ignored by Cloud Shell.
+
+# Configuration Variables
 
 Following sections describe the available variables in the configuration: 
 
