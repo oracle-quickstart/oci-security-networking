@@ -112,7 +112,19 @@ Following sections describe the available variables in the configuration:
 - **policy_name**: the policy name.
 - **provide_short_policy_statements**: if true, policy statements must be provided in variable *policy_statements_short*. If false, policy statements must be provided in the variable *policy_statements_free*.
 - **policy_statements_short**: policy statements in "short" form, provided as a comma-separated list of *\<verb\> \<resource\>* pairs. Use this variable for having the configuration expanding each *\<verb\> \<resource\>* pair into valid basic statement syntax: *allow dynamic-group <dynamic-group-name> to <verb> <resource> in compartment <function-compartment>*. The grantee is always the dynamic group name provided in the variable *dynamic_group_name*, and the compartment name is then one referred by *existing_compartment_ocid* or given by *new_compartment_name* variable. Example: *"read vaults, use keys, read secret-family"*
-- **policy_statements_full** policy statements in full format. Use this variable for providing complex statements when required by the function per OCI requirements. When using this variable, you must provide the full statements, as the module will not make any expansions.
+- **policy_statements_full** policy statements in full format. Use this variable for providing complex statements when required by the function per OCI requirements. When using this variable, you must provide the full statements, as the module will not make any expansions. Example:
+```
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to inspect all-resources in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read instances in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read load-balancers in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read buckets in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read nat-gateways in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read public-ips in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read file-family in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read instance-configurations in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read network-security-groups in tenancy
+allow dynamic-group <dynamic-group-name-either-created-or-being-created-in-stack> to read resource-availability in tenancy
+```
 - **policy_compartment_ocid** the compartment OCID where the policy is attached. If not provided, the policy is created in the compartment where the function is deployed. 
     - **Tip**: use this to define the policy compartment when the policy statements refer to different compartments.
 
