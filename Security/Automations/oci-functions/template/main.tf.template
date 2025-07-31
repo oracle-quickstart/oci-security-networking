@@ -26,6 +26,11 @@ module "fn_deploy" {
     # Networking
     new_vcn_name = "my-function-vcn"
     new_subnet_name = "my-function-subnet"
+
+    # Runtime
+    function_parameters_json_string = <<JSON
+      {"SECRET_OCID":"ocid1.vaultsecret.oc1....kxy","REGION":"us-phoenix-1"}
+    JSON
 }
 
 output "functions_compartment_id" {

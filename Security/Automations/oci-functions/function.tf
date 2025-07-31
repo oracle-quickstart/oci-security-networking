@@ -14,9 +14,9 @@ resource "oci_functions_function" "this" {
   application_id = oci_functions_application.this.id
   display_name   = "${yamldecode(file("${var.function_working_dir}/func.yaml")).name}-function"
   image          = "${local.region_key}.ocir.io/${data.oci_objectstorage_namespace.namespace.namespace}/${var.repository_name}/${yamldecode(file("${var.function_working_dir}/func.yaml")).name}:${yamldecode(file("${var.function_working_dir}/func.yaml")).version}"
-  config         = coalesce(var.function_parameters_map,"_EMPTY_") != "_EMPTY_" ? jsondecode(var.function_parameters_map) : null
-  memory_in_mbs  = yamldecode(file("${var.function_working_dir}/func.yaml")).memory
-  timeout_in_seconds  = yamldecode(file("${var.function_working_dir}/func.yaml")).timeout
+  config         = coalesce(var.function_parameters_json_string,"_EMPTY_") != "_EMPTY_" ? { for k, v in jsondecode(var.function_parameters_json_string) : trimspace(k) => trimspace(v) } : null
+  memory_in_mbs  = try(yamldecode(file("${var.function_working_dir}/func.yaml")).memory,512)
+  timeout_in_seconds  = try(yamldecode(file("${var.function_working_dir}/func.yaml")).timeout,null)
 }
 
 resource "null_resource" "deploy_function_image" {
