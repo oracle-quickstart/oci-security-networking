@@ -105,7 +105,7 @@ output "function_name" {
 
 output "function_invoke_endpoint" {
   description = "The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached."
-  value       = module.fn_deploy.function_invocation_output
+  value       = module.fn_deploy.function_invoke_endpoint
 }
 
 output "function_invocation_test_output" {
