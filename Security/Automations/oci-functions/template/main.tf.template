@@ -103,9 +103,14 @@ output "function_name" {
   value       = module.fn_deploy.function_name
 }
 
-output "function_invocation_output" {
-  description = "Value of the function invocation output"
+output "function_invoke_endpoint" {
+  description = "The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached."
   value       = module.fn_deploy.function_invocation_output
+}
+
+output "function_invocation_test_output" {
+  description = "Value of the function invocation test output"
+  value       = module.fn_deploy.function_invocation_test_output
 }
 
 output "function_log_group_id" {

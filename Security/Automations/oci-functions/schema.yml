@@ -346,9 +346,13 @@ outputs:
     type: string
     title: Function Subnet OCID
 
-  function_invocation_output:
+  function_invoke_endpoint:
+    type: string 
+    title: Function Invoke Endpoint  
+
+  function_invocation_test_output:
     type: string
-    title: Function Invocation Test
+    title: Function Invocation Test Output
 
   function_log_group_name:
     type: string
@@ -389,6 +393,7 @@ outputGroups:
       - ${function_application_id}
       - ${function_name}
       - ${function_id}
+      - ${function_invoke_endpoint}
       - ${function_log_group_name}
       - ${function_log_group_id}
       - ${function_log_name}
@@ -396,5 +401,5 @@ outputGroups:
 
   - title: Function Runtime
     outputs:
-      - ${function_invocation_output}
+      - ${function_invocation_test_output}
     
