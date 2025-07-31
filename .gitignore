@@ -44,3 +44,4 @@ terraform.rc
 # planout
 
 **.DS_Store**
+/Security/Automations/oci-functions/src/cis-reports
