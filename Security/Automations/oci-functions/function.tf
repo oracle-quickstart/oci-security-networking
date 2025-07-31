@@ -15,7 +15,7 @@ resource "oci_functions_function" "this" {
   display_name   = "${yamldecode(file("${var.function_working_dir}/func.yaml")).name}-function"
   image          = "${local.region_key}.ocir.io/${data.oci_objectstorage_namespace.namespace.namespace}/${var.repository_name}/${yamldecode(file("${var.function_working_dir}/func.yaml")).name}:${yamldecode(file("${var.function_working_dir}/func.yaml")).version}"
   config         = coalesce(var.function_parameters_map,"_EMPTY_") != "_EMPTY_" ? jsondecode(var.function_parameters_map) : null
-  memory_in_mbs  = 256
+  memory_in_mbs  = yamldecode(file("${var.function_working_dir}/func.yaml")).memory
 }
 
 resource "null_resource" "deploy_function_image" {
