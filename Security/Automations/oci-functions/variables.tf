@@ -165,8 +165,8 @@ variable "new_subnet_cidr" {
   default     = "10.0.0.0/30"
 }
 
-variable "function_parameters_map" {
-  description = "The parameters for the function in a map-like string format, as {PARAM_1_NAME = PARAM_1_VALUE, PARAM_2_NAME = PARAM_2_VALUE, ...}."
+variable "function_parameters_json_string" {
+  description = "The parameters for the function in a JSON string format, like {\"PARAM_1_NAME\" : \"PARAM_1_VALUE\", \"PARAM_2_NAME\" : \"PARAM_2_VALUE\", ...} (without the escape character)."
   type        = string
   default     = null
 }

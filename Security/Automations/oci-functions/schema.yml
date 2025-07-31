@@ -52,7 +52,7 @@ variableGroups:
 
   - title: "Function Runtime"
     variables:
-      - "function_parameters_map" 
+      - "function_parameters_json_string" 
       - "invoke_function" 
 
   - title: "Hidden Variables"
@@ -271,7 +271,7 @@ variables:
     description: "Enter the path for the directory containing the function source code to deploy."
     required: true
 
-  function_parameters_map:
+  function_parameters_json_string:
     type: string
     title: "Function Parameters (function specific)"
     description: "Enter the parameters (if any) for the function in 'Function Source Code Directory Path' in a JSON string format, as {\"PARAM_1_NAME\" : \"PARAM_1_VALUE\", \"PARAM_2_NAME\" : \"PARAM_2_VALUE\", ...}."
@@ -346,9 +346,13 @@ outputs:
     type: string
     title: Function Subnet OCID
 
-  function_invocation_output:
+  function_invoke_endpoint:
+    type: string 
+    title: Function Invoke Endpoint  
+
+  function_invocation_test_output:
     type: string
-    title: Function Invocation Test
+    title: Function Invocation Test Output
 
   function_log_group_name:
     type: string
@@ -389,6 +393,7 @@ outputGroups:
       - ${function_application_id}
       - ${function_name}
       - ${function_id}
+      - ${function_invoke_endpoint}
       - ${function_log_group_name}
       - ${function_log_group_id}
       - ${function_log_name}
@@ -396,5 +401,5 @@ outputGroups:
 
   - title: Function Runtime
     outputs:
-      - ${function_invocation_output}
+      - ${function_invocation_test_output}
     
