@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rclone-config
+  namespace: <your-namespace>  # <-- Add your Kubernetes namespace here
+data:
+  rclone.conf: |
+    [oci]
+    type = s3
+    provider = OCI
+    region = <YOUR_OCI_REGION>            # <-- Add your Oracle Cloud region (e.g. us-ashburn-1)
+    namespace = <YOUR_OCI_NAMESPACE>      # <-- Add your Oracle Cloud Object Storage namespace
+    compartment = <YOUR_OCI_COMPARTMENT_OCID>  # <-- Add your compartment OCID
+
+    # No access keys needed for OCI; authentication uses OCI Workload Identity
+
+    [aws]
+    type = s3
+    provider = AWS
+    access_key_id = "$(AWS_ACCESS_KEY_ID)"      # <-- Will be injected from environment variable
+    secret_access_key = "$(AWS_SECRET_ACCESS_KEY)"  # <-- Will be injected from environment variable
+    region = <YOUR_AWS_REGION>              # <-- Add your AWS region (e.g. us-east-1)

@@ -1,0 +1,115 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: rclone-bucket
+    app.kubernetes.io/name: rclone-bucket
+    bucket: <your-bucket-name>                   # The name of your AWS S3 bucket (e.g. "my-backup-bucket")
+    period: T0
+  name: <your-job-name>                          # A unique name for this rclone Job
+  namespace: <your-namespace>                    # The Kubernetes namespace where this Job will run
+spec:
+  backoffLimit: 3
+  completionMode: NonIndexed
+  completions: <number-of-pods-used>             # Number of parallel transfers (partitions) (e.g. "1")
+  parallelism: <number-of-pods-used>             # Number of pods to run at once (e.g. "1")
+  suspend: false
+  template:
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/oci-workload-identity: "true"      # Enable OCI workload identity
+        kubectl.kubernetes.io/default-container: main
+      labels:
+        app: rclone-bucket
+        app.kubernetes.io/name: rclone-bucket
+        bucket: <your-bucket-name>
+        period: T0
+    spec:
+      serviceAccountName: <your-oci-workload-identity-sa>             # ServiceAccount with OCI Workload Identity permissions
+      containers:
+      - name: main
+        image: rclone/rclone:latest
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c"]
+        args:
+          - >
+            rclone sync ${BACKUP_SRC_REMOTE}:${BACKUP_SRC_PATH} ${BACKUP_DST_REMOTE}:${BACKUP_DST_PATH} --config /config/rclone.conf
+        env:
+        - name: AWS_EC2_METADATA_DISABLED
+          value: "true"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret                        # The name of the Kubernetes secret containing AWS keys
+              key: aws_access_key_id
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret                        # The name of the Kubernetes secret containing AWS keys
+              key: aws_secret_access_key
+        - name: TZ
+          value: UTC
+        - name: BACKUP_SRC_REMOTE
+          value: aws                                             # Use "aws" as defined in rclone.conf
+        - name: BACKUP_SRC_PATH
+          value: <src-path>                                      # Path in the AWS bucket (e.g. "bucket/data/path")
+        - name: BACKUP_DST_REMOTE
+          value: oci                                             # Use "oci" as defined in rclone.conf
+        - name: BACKUP_DST_PATH
+          value: <dst-path>                                      # Path in the OCI bucket (e.g. "bucket/backup/path")
+        - name: RCLONE_LOG_LEVEL
+          value: INFO
+        - name: RCLONE_STATS
+          value: 10s
+        - name: RCLONE_STATS_FILE_NAME_LENGTH
+          value: "0"
+        - name: RCLONE_STATS_ONE_LINE
+          value: "true"
+        - name: RCLONE_CHECKERS
+          value: <number-of-checkers>                            # Number of files to check at once (e.g. "8")
+        - name: RCLONE_TRANSFERS
+          value: <number-of-transfers>                           # Number of parallel file transfers (e.g. "8")
+        - name: RCLONE_S3_UPLOAD_CUTOFF
+          value: 512M
+        - name: RCLONE_S3_CHUNK_SIZE
+          value: 256M
+        resources:
+          limits:
+            cpu: <cpu-limit>                                     # Max CPU to use (e.g. "16")
+            memory: <memory-limit>                               # Max memory to use (e.g. "256Gi")
+          requests:
+            cpu: <cpu-request>                                   # Min CPU to reserve (e.g. "16")
+            memory: <memory-request>                             # Min memory to reserve (e.g. "256Gi")
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /config
+          name: rclone-config-volume
+          readOnly: true
+        # Probes for better introspection
+        livenessProbe:
+          exec:
+            command: ["/bin/sh", "-c", "rclone version"]
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command: ["/bin/sh", "-c", "rclone listremotes --config /config/rclone.conf"]
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3
+      dnsPolicy: Default
+      restartPolicy: OnFailure
+      schedulerName: default-scheduler
+      securityContext:
+        runAsGroup: 65534
+        runAsNonRoot: true
+        runAsUser: 65534
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: rclone-config-volume
+        configMap:
+          name: rclone-config                                   # Must match your ConfigMap name
+  ttlSecondsAfterFinished: 691200
