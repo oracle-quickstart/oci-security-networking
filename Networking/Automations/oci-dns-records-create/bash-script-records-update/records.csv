@@ -1,0 +1,4 @@
+"DOMAIN,TYPE,TTL,RDATA"
+"host1.abc.com,A,3600,10.0.0.10|10.0.0.11"
+"host2.abc.com,AAAA,3600,2001:db8::10|2001:db8::11"
+"alias1.abc.com,CNAME,3600,target1.abc.com."
