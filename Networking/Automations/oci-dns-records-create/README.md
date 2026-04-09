@@ -1,6 +1,9 @@
-## Automate DNS Record Creation in OCI Private DNS Zones with Python and Bash
+## Automate DNS Record Creation in OCI Private DNS Zones with Python or Bash
 
 Managing DNS records in Oracle Cloud Infrastructure (OCI) is simple for small environments. However, as cloud environments scale across microservices, hybrid architectures, and large onboarding pipelines, manual DNS management becomes inefficient and error-prone.
+
+Blog: 
+https://www.ateam-oracle.com/automate-dns-record-creation-in-oci-private-dns-zone-with-python-or-bash
 
 This project demonstrates how to automate DNS record management in OCI Private Zones using:
 
